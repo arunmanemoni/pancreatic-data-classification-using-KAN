@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Data Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Medical Prediction Form</h2>
+        <form id="predictionForm">
+            <label for="sex">Sex:</label>
+            <input type="text" id="sex" name="sex" required>
+
+            <label for="plasma_CA19_9">Plasma CA19_9:</label>
+            <input type="number" id="plasma_CA19_9" name="plasma_CA19_9" required>
+
+            <label for="creatinine">Creatinine:</label>
+            <input type="number" id="creatinine" name="creatinine" required>
+
+            <label for="LYVE1">LYVE1:</label>
+            <input type="number" id="LYVE1" name="LYVE1" required>
+
+            <label for="REG1B">REG1B:</label>
+            <input type="number" id="REG1B" name="REG1B" required>
+
+            <label for="TFF1">TFF1:</label>
+            <input type="number" id="TFF1" name="TFF1" required>
+
+            <label for="REG1A">REG1A:</label>
+            <input type="number" id="REG1A" name="REG1A" required>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('predictionForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            const data = {
+                sex: formData.get('sex'),
+                plasma_CA19_9: formData.get('plasma_CA19_9'),
+                creatinine: formData.get('creatinine'),
+                LYVE1: formData.get('LYVE1'),
+                REG1B: formData.get('REG1B'),
+                TFF1: formData.get('TFF1'),
+                REG1A: formData.get('REG1A')
+            };
+
+            const response = await fetch('http://localhost:8000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = Prediction Result: ${result.prediction};
+        });
+    </script>
+</body>
+</html>

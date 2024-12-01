@@ -1,0 +1,47 @@
+digraph FullPipelineVisualization {
+	fontsize=14 rankdir=TB size="15,12"
+	"Data Loading" [label="Load Dataset
+(.csv, .json, .xlsx)" fillcolor=lightblue fontsize=12 shape=rectangle style="rounded, filled"]
+	"Handle Missing Data" [label="Handle Missing Data
+(Mean/Median Imputation, Drop NaN)" fillcolor=lightyellow fontsize=12 shape=rectangle style=filled]
+	"Outlier Detection" [label="Outlier Detection
+(Z-Score, IQR Method)" fillcolor=lightyellow fontsize=12 shape=rectangle style=filled]
+	"Feature Engineering" [label="Feature Engineering
+(Create New Features, Transformations)" fillcolor=lightyellow fontsize=12 shape=rectangle style=filled]
+	"Feature Selection" [label="Feature Selection
+(Recursive Feature Elimination, Feature Importance)" fillcolor=lightyellow fontsize=12 shape=rectangle style=filled]
+	"Data Splitting" [label="Split Data
+(Train, Validation, Test)" fillcolor=lightyellow fontsize=12 shape=rectangle style=filled]
+	"KAN Model" [label="KAN Model
+(Hyperparameters: width, grid, k)" fillcolor=orange fontsize=12 shape=ellipse style=filled]
+	"Logistic Regression" [label="Logistic Regression
+(Hyperparameter: max_iter)" fillcolor=orange fontsize=12 shape=ellipse style=filled]
+	"Gradient Boosting" [label="Gradient Boosting Classifier
+(Default Parameters)" fillcolor=orange fontsize=12 shape=ellipse style=filled]
+	XGBoost [label="XGBoost Classifier
+(GridSearch for Parameters)" fillcolor=orange fontsize=12 shape=ellipse style=filled]
+	"Hyperparameter Tuning" [label="Hyperparameter Tuning
+(GridSearchCV, RandomizedSearchCV)" fillcolor=orange fontsize=12 shape=ellipse style=filled]
+	Evaluation [label="Evaluation
+(Accuracy, Precision, Recall, F1-Score)" fillcolor=lightgreen fontsize=12 shape=diamond style=filled]
+	"Confusion Matrix" [label="Confusion Matrix
+(True Positives, False Positives, etc.)" fillcolor=lightgreen fontsize=12 shape=diamond style=filled]
+	"ROC Curve" [label="ROC Curve
+(AUC-ROC for Binary Classification)" fillcolor=lightgreen fontsize=12 shape=diamond style=filled]
+	"Data Loading" -> "Handle Missing Data" [label="Clean Data"]
+	"Handle Missing Data" -> "Outlier Detection" [label="Detect Anomalies"]
+	"Outlier Detection" -> "Feature Engineering" [label="Transform Data"]
+	"Feature Engineering" -> "Feature Selection" [label="Select Features"]
+	"Feature Selection" -> "Data Splitting" [label="Prepare for Modeling"]
+	"Data Splitting" -> "KAN Model" [label="Train Data"]
+	"Data Splitting" -> "Logistic Regression" [label="Train Data"]
+	"Data Splitting" -> "Gradient Boosting" [label="Train Data"]
+	"Data Splitting" -> XGBoost [label="Train Data"]
+	"KAN Model" -> "Hyperparameter Tuning" [label="Tune Parameters"]
+	"Logistic Regression" -> "Hyperparameter Tuning" [label="Tune Parameters"]
+	"Gradient Boosting" -> "Hyperparameter Tuning" [label="Tune Parameters"]
+	XGBoost -> "Hyperparameter Tuning" [label="Tune Parameters"]
+	"Hyperparameter Tuning" -> Evaluation [label="Evaluate Model"]
+	Evaluation -> "Confusion Matrix" [label="Analyze Results"]
+	Evaluation -> "ROC Curve" [label="Measure ROC"]
+}
